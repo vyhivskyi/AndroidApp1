@@ -116,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
     EditText tv, tv2, tv3;
     Button button, przyciskKoniec;
     TextView tvSrednia;
-    boolean buttonVisibility;
+    boolean buttonVisibility, buttonEnabled;
     EditText poleTekstowe, poleTekstowe2, poleTekstowe3;
-
+    float srednia = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
             przyciskKoniec.setVisibility(buttonVisibility ? View.VISIBLE : View.INVISIBLE);
             buttonVisibility = savedInstanceState.getBoolean("srednia_visibility");
             tvSrednia.setVisibility(buttonVisibility ? View.VISIBLE : View.INVISIBLE);
+            buttonEnabled = savedInstanceState.getBoolean("przyciskKoniec_enabled");
+            przyciskKoniec.setEnabled(buttonEnabled);
         }
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -180,58 +182,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intencja, 1);
             }
         });
-    }
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(getString(R.string.imie), tv.getText().toString());
-        outState.putString(getString(R.string.nazwisko), tv2.getText().toString());
-        outState.putString(getString(R.string.liczba_ocen), tv3.getText().toString());
-        outState.putString("srednia", tvSrednia.getText().toString());
-        outState.putString("przycisk", przyciskKoniec.getText().toString());
-        outState.putBoolean("przyciskOceny_visibility", button.getVisibility() == View.VISIBLE);
-        outState.putBoolean("przyciskKoniec_visibility", przyciskKoniec.getVisibility() == View.VISIBLE);
-        outState.putBoolean("srednia_visibility", tvSrednia.getVisibility() == View.VISIBLE);
-        super.onSaveInstanceState(outState);
-    }
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        tv.setText(savedInstanceState.getString(getString(R.string.imie)));
-        tv2.setText(savedInstanceState.getString(getString(R.string.nazwisko)));
-        tv3.setText(savedInstanceState.getString(getString(R.string.liczba_ocen)));
-        tvSrednia.setText(savedInstanceState.getString("srednia"));
-        przyciskKoniec.setText(savedInstanceState.getString("przycisk"));
-        buttonVisibility = savedInstanceState.getBoolean("przyciskOceny_visibility");
-        button.setVisibility(buttonVisibility ? View.VISIBLE : View.INVISIBLE);
-        buttonVisibility = savedInstanceState.getBoolean("przyciskKoniec_visibility");
-        przyciskKoniec.setVisibility(buttonVisibility ? View.VISIBLE : View.INVISIBLE);
-        buttonVisibility = savedInstanceState.getBoolean("srednia_visibility");
-        tvSrednia.setVisibility(buttonVisibility ? View.VISIBLE : View.INVISIBLE);
-    }
-    private void updateTextAndButtonVisibility(float srednia) {
-        tvSrednia = findViewById(R.id.srednia);
-        przyciskKoniec = findViewById(R.id.przyciskKoniec);
-        if (srednia>=2 && srednia<=5){
-            tvSrednia.setVisibility(View.VISIBLE);
-            tvSrednia.setText(getString(R.string.srednia, srednia));
-            if(srednia>3) przyciskKoniec.setText(getString(R.string.button_win));
-            else przyciskKoniec.setText(getString(R.string.button_lose));
-            przyciskKoniec.setVisibility(View.VISIBLE);
-        }
-        else {
-            tvSrednia.setVisibility(View.GONE);
-            przyciskKoniec.setVisibility(View.GONE);
-        }
-    }
-    @Override
-    protected void onActivityResult(int kodZadania, int kodZakonczenia, Intent intent) {
-        super.onActivityResult(kodZadania,kodZakonczenia,intent);
-        float srednia = 0;
-        if(kodZakonczenia == RESULT_OK && kodZadania==1) {
-            Bundle pakunek = intent.getExtras();
-            srednia = pakunek.getFloat("srednia");
-        }
-        updateTextAndButtonVisibility(srednia);
         przyciskKoniec = findViewById(R.id.przyciskKoniec);
         przyciskKoniec.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,5 +204,59 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(getString(R.string.imie), tv.getText().toString());
+        outState.putString(getString(R.string.nazwisko), tv2.getText().toString());
+        outState.putString(getString(R.string.liczba_ocen), tv3.getText().toString());
+        outState.putString("srednia", tvSrednia.getText().toString());
+        outState.putString("przycisk", przyciskKoniec.getText().toString());
+        outState.putBoolean("przyciskOceny_visibility", button.getVisibility() == View.VISIBLE);
+        outState.putBoolean("przyciskKoniec_visibility", przyciskKoniec.getVisibility() == View.VISIBLE);
+        outState.putBoolean("srednia_visibility", tvSrednia.getVisibility() == View.VISIBLE);
+        outState.putBoolean("przyciskKoniec_enabled", przyciskKoniec.isEnabled());
+        super.onSaveInstanceState(outState);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        tv.setText(savedInstanceState.getString(getString(R.string.imie)));
+        tv2.setText(savedInstanceState.getString(getString(R.string.nazwisko)));
+        tv3.setText(savedInstanceState.getString(getString(R.string.liczba_ocen)));
+        tvSrednia.setText(savedInstanceState.getString("srednia"));
+        przyciskKoniec.setText(savedInstanceState.getString("przycisk"));
+        buttonVisibility = savedInstanceState.getBoolean("przyciskOceny_visibility");
+        button.setVisibility(buttonVisibility ? View.VISIBLE : View.INVISIBLE);
+        buttonVisibility = savedInstanceState.getBoolean("przyciskKoniec_visibility");
+        przyciskKoniec.setVisibility(buttonVisibility ? View.VISIBLE : View.INVISIBLE);
+        buttonVisibility = savedInstanceState.getBoolean("srednia_visibility");
+        tvSrednia.setVisibility(buttonVisibility ? View.VISIBLE : View.INVISIBLE);
+        buttonEnabled = savedInstanceState.getBoolean("przyciskKoniec_enabled");
+        przyciskKoniec.setEnabled(buttonEnabled);
+    }
+    private void updateTextAndButtonVisibility(float srednia) {
+        tvSrednia = findViewById(R.id.srednia);
+        przyciskKoniec = findViewById(R.id.przyciskKoniec);
+        if (srednia>=2 && srednia<=5){
+            tvSrednia.setVisibility(View.VISIBLE);
+            tvSrednia.setText(getString(R.string.srednia, srednia));
+            if(srednia>3) przyciskKoniec.setText(getString(R.string.button_win));
+            else przyciskKoniec.setText(getString(R.string.button_lose));
+            przyciskKoniec.setVisibility(View.VISIBLE);
+        }
+        else {
+            tvSrednia.setVisibility(View.GONE);
+            przyciskKoniec.setVisibility(View.GONE);
+        }
+    }
+    @Override
+    protected void onActivityResult(int kodZadania, int kodZakonczenia, Intent intent) {
+        super.onActivityResult(kodZadania,kodZakonczenia,intent);
+        if(kodZakonczenia == RESULT_OK && kodZadania==1) {
+            Bundle pakunek = intent.getExtras();
+            srednia = pakunek.getFloat("srednia");
+        }
+        updateTextAndButtonVisibility(srednia);
     }
 }
