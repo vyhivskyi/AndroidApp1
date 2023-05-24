@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lista_ocen_rv"
@@ -11,7 +11,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@+id/przyciskSrednia"
-        tools:listitem="@layout/wiersz_ocena"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/wiersz_ocena" />
 
     <Button
         android:id="@+id/przyciskSrednia"
@@ -20,6 +21,7 @@
         android:text="Oblicz średnią"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

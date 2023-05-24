@@ -40,6 +40,7 @@ public class SecondActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     RecyclerView recyclerView;
+    InteraktywnyAdapterTablicy adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +51,19 @@ public class SecondActivity extends AppCompatActivity {
         liczbaOcen = pakunek.getInt("liczbaOcen");
         nazwyPrzedmiotow = getResources().getStringArray(R.array.przedmioty);
         mListaOcen = new ArrayList<>();
-        for (int i = 0; i < liczbaOcen; i++) {
-            mListaOcen.add(new ModelOceny(nazwyPrzedmiotow[i], 2));
-        }
-        InteraktywnyAdapterTablicy adapter = new InteraktywnyAdapterTablicy(this, mListaOcen);
         recyclerView = findViewById(R.id.lista_ocen_rv);
+        if(savedInstanceState != null) {
+            for (int i=0; i<savedInstanceState.getInt("liczbaOcen"); i++) {
+                mListaOcen.add(new ModelOceny(nazwyPrzedmiotow[i], savedInstanceState.getInt("ocena"+i)));
+            }
+            //recyclerView.setAdapter(new InteraktywnyAdapterTablicy(this, mListaOcen));
+        }
+        else {
+            for (int i = 0; i < liczbaOcen; i++) {
+                mListaOcen.add(new ModelOceny(nazwyPrzedmiotow[i], 2));
+            }
+        }
+        adapter = new InteraktywnyAdapterTablicy(this, mListaOcen);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         button = findViewById(R.id.przyciskSrednia);
@@ -68,13 +77,6 @@ public class SecondActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        if(savedInstanceState != null) {
-            for (int i=0; i<savedInstanceState.getInt("liczbaOcen"); i++) {
-                mListaOcen.add(new ModelOceny(nazwyPrzedmiotow[i], savedInstanceState.getInt("ocena"+i)));
-            }
-            recyclerView.setAdapter(new InteraktywnyAdapterTablicy(this, mListaOcen));
-        }
     }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -86,13 +88,12 @@ public class SecondActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
+    /*@Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         for (int i=0; i<savedInstanceState.getInt("liczbaOcen"); i++) {
             mListaOcen.add(new ModelOceny(nazwyPrzedmiotow[i], savedInstanceState.getInt("ocena"+i)));
         }
-        recyclerView.setAdapter(new InteraktywnyAdapterTablicy(this, mListaOcen));
-    }
+    }*/
 
 }
