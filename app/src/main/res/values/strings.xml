@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">App 1</string>
+    <string name="imie">Imię</string>
+    <string name="nazwisko">Nazwisko</string>
+    <string name="liczba_ocen">Liczba ocen</string>
+    <string name="puste_pole">Pole %s nie może być puste</string>
+    <string name="zla_liczba_ocen">Podana zła liczba ocen</string>
+    <string name="zle_dane">Podane złe dane</string>
+    <string name="przycisk_oceny">Oceny</string>
+    <string name="przycisk_srednia">Oblicz średnią</string>
+    <string name="srednia">Twoja średnia: %.2f</string>
+    <string name="button_win">Super :)</string>
+    <string name="button_lose">Tym razem mi nie poszło</string>
+    <string name="info_win">Gratulacje! Otrzymujesz zaliczenie!</string>
+    <string name="info_lose">Wysyłam podanie o zaliczenie warunkowe</string>
+    <string-array name="przedmioty">
+        <item>Matematyka</item>
+        <item>Język polski</item>
+        <item>Biologia</item>
+        <item>Chemia</item>
+        <item>Fizyka</item>
+        <item>Geografia</item>
+        <item>Historia</item>
+        <item>Informatyka</item>
+        <item>WOS</item>
+        <item>Wychowanie fizyczne</item>
+        <item>EDB</item>
+        <item>PP</item>
+        <item>Muzyka</item>
+        <item>Plastyka</item>
+        <item>Język obcy</item>
+    </string-array>
+</resources>
